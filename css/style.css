@@ -1,0 +1,26 @@
+.card.matched {
+	animation: matched-skew-jump 1s ease forwards;
+	background: #8bc34a;
+	color: white;
+	cursor: default;
+	z-index: 10;
+}
+@keyframes matched-skew-jump {
+	0% {
+		transform: translate(0, 0) rotate(0deg);
+		opacity: 1;
+	}
+	25% {
+		transform: translate(40px, -50px) rotate(10deg);
+	}
+	50% {
+		transform: translate(80px, -30px) rotate(-5deg);
+	}
+	75% {
+		transform: translate(120px, 50px) rotate(15deg);
+	}
+	100% {
+		transform: translate(150px, 1000px) rotate(45deg);
+		opacity: 0;
+	}
+}
