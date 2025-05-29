@@ -19,17 +19,6 @@ function initBoard() {
 		card.dataset.symbol = symbol;
 		card.dataset.index = index;
 
-		const front = document.createElement("div");
-		front.classList.add("front");
-		front.textContent = "";
-
-		const back = document.createElement("div");
-		back.classList.add("back");
-		back.textContent = symbol;
-
-		card.appendChild(front);
-		card.appendChild(back);
-
 		card.addEventListener("click", () => {
 			if (!window.gameStarted) return;
 			if (

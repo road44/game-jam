@@ -1,0 +1,67 @@
+/* Plansza gry */
+.board {
+	display: grid;
+	grid-template-columns: repeat(5, 100px);
+	grid-template-rows: repeat(4, 100px);
+	gap: 10px;
+	margin: 20px;
+}
+
+/* Karta */
+.card {
+	width: 100px;
+	height: 100px;
+	position: relative;
+	border-radius: 10px;
+	background: #444;
+	color: white;
+	font-size: 2rem;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	cursor: pointer;
+	transition: background 0.3s, color 0.3s;
+	user-select: none;
+}
+
+.card::after {
+	content: attr(data-symbol);
+	font-size: 2rem;
+	visibility: hidden;
+}
+
+.card.revealed::after {
+	visibility: visible;
+}
+
+.card.revealed {
+	background: white;
+	color: black;
+	cursor: default;
+}
+
+/* Dopasowana karta – animacja */
+.card.matched {
+	animation: matched-skew-jump 1s ease forwards;
+	z-index: 10;
+}
+
+@keyframes matched-skew-jump {
+	0% {
+		transform: translate(0, 0) rotate(0deg);
+		opacity: 1;
+	}
+	25% {
+		transform: translate(40px, -50px) rotate(10deg);
+	}
+	50% {
+		transform: translate(80px, -30px) rotate(-5deg);
+	}
+	75% {
+		transform: translate(120px, 50px) rotate(15deg);
+	}
+	100% {
+		transform: translate(150px, 1000px) rotate(45deg);
+		opacity: 0;
+	}
+}
