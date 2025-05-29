@@ -7,55 +7,55 @@ let moves = 0;
 let score = 0;
 
 function updateDisplays() {
-	wynikDisplay.textContent = score;
-	ruchyDisplay.textContent = moves;
+  wynikDisplay.textContent = score;
+  ruchyDisplay.textContent = moves;
 }
 
-// Podmieniamy funkcję resetTurn (jest z board.js)
 const originalResetTurn = window.resetTurn;
 
 window.resetTurn = function () {
-	moves++;
-	const matchedCards = document.querySelectorAll(".card.matched");
-	score = matchedCards.length / 2;
+  moves++;
+  const matchedCards = document.querySelectorAll(".card.matched");
+  score = matchedCards.length / 2;
 
-	updateDisplays();
-	originalResetTurn();
+  updateDisplays();
+  originalResetTurn();
 };
 
-// Start gry
+window.gameStarted = false;
+
 startBtn.addEventListener("click", () => {
-	moves = 0;
-	score = 0;
-	updateDisplays();
+  moves = 0;
+  score = 0;
+  updateDisplays();
 
-	// Wywołaj funkcję z board.js, aby rozłożyć karty i rozpocząć grę
-	initBoard();
+  window.gameStarted = true;
 
-	// Możesz tutaj ustawić dodatkowo jakieś flagi, jeśli chcesz blokować przycisk Start itp.
-	startBtn.disabled = true;
-	resetBtn.disabled = false;
+  window.initBoard();
+
+  startBtn.disabled = true;
+  resetBtn.disabled = false;
 });
 
-// Reset gry
 resetBtn.addEventListener("click", () => {
-	moves = 0;
-	score = 0;
-	updateDisplays();
+  moves = 0;
+  score = 0;
+  updateDisplays();
 
-	// Czyścimy planszę
-	board.innerHTML = "";
+  window.gameStarted = true;
 
-	// Resetujemy zmienne w board.js
-	firstCard = null;
-	secondCard = null;
-	lockBoard = false;
+  const board = document.getElementById("board");
+  board.innerHTML = "";
 
-	// Odblokowujemy start
-	startBtn.disabled = false;
-	resetBtn.disabled = true;
+  window.firstCard = null;
+  window.secondCard = null;
+  window.lockBoard = false;
+
+  window.initBoard();
+
+  startBtn.disabled = true;
+  resetBtn.disabled = false;
 });
 
-// Na początek reset przycisku reset, bo gra nie ruszyła
 resetBtn.disabled = true;
 updateDisplays();
