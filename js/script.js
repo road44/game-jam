@@ -1,0 +1,54 @@
+const emojis = ["🍎", "🚗", "🐶", "🎵", "🍕", "⚽", "📚", "🌞", "🎁", "🎲"];
+const board = document.getElementById("board");
+
+let cards = [...emojis, ...emojis].sort(() => Math.random() - 0.5);
+
+let firstCard = null;
+let secondCard = null;
+let lockBoard = false;
+
+cards.forEach((symbol, index) => {
+	const card = document.createElement("div");
+	card.classList.add("card");
+	card.dataset.symbol = symbol;
+	card.dataset.index = index;
+
+	card.addEventListener("click", () => {
+		if (
+			lockBoard ||
+			card.classList.contains("revealed") ||
+			card.classList.contains("matched")
+		)
+			return;
+
+		card.textContent = card.dataset.symbol;
+		card.classList.add("revealed");
+
+		if (!firstCard) {
+			firstCard = card;
+		} else {
+			secondCard = card;
+			lockBoard = true;
+
+			if (firstCard.dataset.symbol === secondCard.dataset.symbol) {
+				firstCard.classList.add("matched");
+				secondCard.classList.add("matched");
+				resetTurn();
+			} else {
+				setTimeout(() => {
+					firstCard.textContent = "";
+					secondCard.textContent = "";
+					firstCard.classList.remove("revealed");
+					secondCard.classList.remove("revealed");
+					resetTurn();
+				}, 1000);
+			}
+		}
+	});
+
+	board.appendChild(card);
+});
+function resetTurn() {
+	[firstCard, secondCard] = [null, null];
+	lockBoard = false;
+}
