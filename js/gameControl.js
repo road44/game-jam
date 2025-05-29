@@ -30,12 +30,14 @@ const winMessage = document.getElementById("win-message");
 const restartBtn = document.getElementById("restart");
 
 function showWinMessage() {
-	winMessage.style.display = "block";
+	document.getElementById("win-message").style.display = "block";
+	document.getElementById("win-overlay").style.display = "block";
 	resetBtn.disabled = true;
 }
 
 function hideWinMessage() {
-	winMessage.style.display = "none";
+	document.getElementById("win-message").style.display = "none";
+	document.getElementById("win-overlay").style.display = "none";
 }
 
 restartBtn.addEventListener("click", () => {
