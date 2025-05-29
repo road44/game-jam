@@ -11,9 +11,12 @@ class MemoGameController {
     this.timeElapsed = 0;
     this.timerRunning = false;
 
+    this.focusIndex = 0; // indeks karty zaznaczonej klawiaturą
+
     this.bindEvents();
     this.updateScore(0);
     this.updateTimer(0);
+    this.updateFocus();
   }
 
   bindEvents() {
@@ -23,6 +26,65 @@ class MemoGameController {
     });
 
     this.restartButton.addEventListener("click", () => this.handleRestart());
+
+    window.addEventListener("keydown", (e) => this.handleKeyDown(e));
+  }
+
+  handleKeyDown(e) {
+    const maxIndex = this.cardElements.length - 1;
+    switch (e.key) {
+      case "ArrowRight":
+      case "d":
+      case "D":
+        this.focusIndex = (this.focusIndex + 1) > maxIndex ? 0 : this.focusIndex + 1;
+        this.updateFocus();
+        e.preventDefault();
+        break;
+
+      case "ArrowLeft":
+      case "a":
+      case "A":
+        this.focusIndex = (this.focusIndex - 1) < 0 ? maxIndex : this.focusIndex - 1;
+        this.updateFocus();
+        e.preventDefault();
+        break;
+
+      case "ArrowDown":
+      case "s":
+      case "S":
+        // jeśli chcesz, żeby ruszać się w "siatce", trzeba znać szerokość planszy — tutaj uproszczone:
+        this.focusIndex += 4; // np. 4 karty na wiersz
+        if (this.focusIndex > maxIndex) this.focusIndex %= (maxIndex + 1);
+        this.updateFocus();
+        e.preventDefault();
+        break;
+
+      case "ArrowUp":
+      case "w":
+      case "W":
+        this.focusIndex -= 4;
+        if (this.focusIndex < 0) this.focusIndex += maxIndex + 1;
+        this.updateFocus();
+        e.preventDefault();
+        break;
+
+      case "Enter":
+      case " ":
+        this.handleCardClick(this.focusIndex);
+        e.preventDefault();
+        break;
+    }
+  }
+
+  updateFocus() {
+    this.cardElements.forEach((card, i) => {
+      if (i === this.focusIndex) {
+        card.classList.add("focused");
+        card.focus?.(); // spróbuj ustawić focus, jeśli karta jest focusowalna
+      } else {
+        card.classList.remove("focused");
+      }
+    });
   }
 
   handleCardClick(index) {
@@ -38,7 +100,6 @@ class MemoGameController {
 
     if (result.matched) {
       this.updateScore(this.score + 1);
-
       result.indexes.forEach(i => {
         this.cardElements[i].classList.add("matched");
       });
@@ -98,5 +159,7 @@ class MemoGameController {
     this.cardElements.forEach(card => {
       card.classList.remove("revealed", "matched");
     });
+    this.focusIndex = 0;
+    this.updateFocus();
   }
 }
