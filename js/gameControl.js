@@ -1,26 +1,102 @@
 class MemoGameController {
-    constructor({ cardElements, scoreElement, restartButton, logic, timerElement }) {
-        this.cardElements = cardElements;
-        this.scoreElement = scoreElement;
-        this.restartButton = restartButton;
-        this.logic = logic;
-        this.timerElement = timerElement;      
+  constructor({ cardElements, scoreElement, restartButton, logic, timerElement }) {
+    this.cardElements = cardElements;
+    this.scoreElement = scoreElement;
+    this.restartButton = restartButton;
+    this.logic = logic;
+    this.timerElement = timerElement;
 
-        this.score = 0;
-        this.timer = null;
-        this.timeElapsed = 0;
-        this.timerRunning = false;
+    this.score = 0;
+    this.timer = null;
+    this.timeElapsed = 0;
+    this.timerRunning = false;
 
-        this.bindEvents();
-        this.updateScore(0)
-        this.updateTimer(0);
+    this.bindEvents();
+    this.updateScore(0);
+    this.updateTimer(0);
+  }
+
+  bindEvents() {
+    this.cardElements.forEach((card, index) => {
+      card.dataset.index = index;
+      card.addEventListener("click", () => this.handleCardClick(index));
+    });
+
+    this.restartButton.addEventListener("click", () => this.handleRestart());
+  }
+
+  handleCardClick(index) {
+    if (!this.timerRunning) {
+      this.startTimer();
     }
-    bindEvents() {
-        this.cardElements.forEach((card, index) => {
-            card.dataset.index = index;
-            card.addEventListener("click", () => this.handleCardClick(index));
-        });
-        
-        this.restartButton.addEventListener("click", () => this.handleRestart());
+    const result = this.logic.revealCard(index);
+    if (!result.validMove) return;
+
+    result.indexes.forEach(i => {
+      this.cardElements[i].classList.add("revealed");
+    });
+
+    if (result.matched) {
+      this.updateScore(this.score + 1);
+
+      result.indexes.forEach(i => {
+        this.cardElements[i].classList.add("matched");
+      });
     }
+
+    if (this.score === this.logic.cardCount / 2) {
+      this.stopTimer();
+    }
+  }
+
+  updateUIAfterCheck(result) {
+    if (!result.matched) {
+      result.indexes.forEach(i => {
+        this.cardElements[i].classList.remove("revealed");
+      });
+    }
+  }
+
+  updateScore(score) {
+    this.score = score;
+    if (this.scoreElement) {
+      this.scoreElement.textContent = `Wynik: ${score}`;
+    }
+  }
+
+  updateTimer(seconds) {
+    this.timeElapsed = seconds;
+    if (this.timerElement) {
+      const m = Math.floor(seconds / 60).toString().padStart(2, "0");
+      const s = (seconds % 60).toString().padStart(2, "0");
+      this.timerElement.textContent = `${m}:${s}`;
+    }
+  }
+
+  startTimer() {
+    if (this.timerRunning) return;
+    this.timerRunning = true;
+    this.timer = setInterval(() => {
+      this.updateTimer(this.timeElapsed + 1);
+    }, 1000);
+  }
+
+  stopTimer() {
+    this.timerRunning = false;
+    if (this.timer) {
+      clearInterval(this.timer);
+      this.timer = null;
+    }
+  }
+
+  handleRestart() {
+    this.logic.reset();
+    this.updateScore(0);
+    this.updateTimer(0);
+    this.stopTimer();
+
+    this.cardElements.forEach(card => {
+      card.classList.remove("revealed", "matched");
+    });
+  }
 }
