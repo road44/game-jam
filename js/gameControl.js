@@ -30,6 +30,11 @@ const winMessage = document.getElementById("win-message");
 const restartBtn = document.getElementById("restart");
 
 function showWinMessage() {
+	const finalScoreText = `Twój wynik to: ${score}!!`;
+	const finalMovesText = `Dokonałeś tego w ${moves} ruchach!`;
+	document.getElementById("final-score").textContent = finalScoreText;
+	document.getElementById("final-moves").textContent = finalMovesText;
+
 	document.getElementById("win-message").style.display = "block";
 	document.getElementById("win-overlay").style.display = "block";
 	resetBtn.disabled = true;
