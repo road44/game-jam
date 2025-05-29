@@ -2,7 +2,6 @@ const emojis = ["🍎", "🚗", "🐶", "🎵", "🍕", "⚽", "📚", "🌞", "
 const board = document.getElementById("board");
 
 let cards = [...emojis, ...emojis].sort(() => Math.random() - 0.5);
-
 let firstCard = null;
 let secondCard = null;
 let lockBoard = false;
@@ -13,6 +12,17 @@ cards.forEach((symbol, index) => {
 	card.dataset.symbol = symbol;
 	card.dataset.index = index;
 
+	const front = document.createElement("div");
+	front.classList.add("front");
+	front.textContent = "";
+
+	const back = document.createElement("div");
+	back.classList.add("back");
+	back.textContent = symbol;
+
+	card.appendChild(front);
+	card.appendChild(back);
+
 	card.addEventListener("click", () => {
 		if (
 			lockBoard ||
@@ -21,7 +31,6 @@ cards.forEach((symbol, index) => {
 		)
 			return;
 
-		card.textContent = card.dataset.symbol;
 		card.classList.add("revealed");
 
 		if (!firstCard) {
@@ -31,13 +40,13 @@ cards.forEach((symbol, index) => {
 			lockBoard = true;
 
 			if (firstCard.dataset.symbol === secondCard.dataset.symbol) {
-				firstCard.classList.add("matched");
-				secondCard.classList.add("matched");
-				resetTurn();
+				setTimeout(() => {
+					firstCard.classList.add("matched");
+					secondCard.classList.add("matched");
+					resetTurn();
+				}, 500);
 			} else {
 				setTimeout(() => {
-					firstCard.textContent = "";
-					secondCard.textContent = "";
 					firstCard.classList.remove("revealed");
 					secondCard.classList.remove("revealed");
 					resetTurn();
@@ -48,6 +57,7 @@ cards.forEach((symbol, index) => {
 
 	board.appendChild(card);
 });
+
 function resetTurn() {
 	[firstCard, secondCard] = [null, null];
 	lockBoard = false;

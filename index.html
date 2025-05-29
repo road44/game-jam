@@ -7,71 +7,43 @@
     <title>Projekt memo </title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-4Q6Gf2aSP4eDXB8Miphtr37CMZZQ5oXLH2yaXMJ2w8e2ZtHTl7GptT4jmndRuHDT" crossorigin="anonymous">
-    <script src="js/board.js"></script>
-</head>
+<link rel="stylesheet" href="css/style.css">
+    </head>
 
-<body>
-    <body class="bg-dark">
 
-        <div class="container py-5">
-            <div class="text-center mb-4">
-                <h1 class="mb-3 text-light">Gra Memo</h1>
-                <div id="sterowanie-gra" class="d-flex justify-content-center gap-3">
-                    <button class="btn btn-primary" id="start">Start</button>
-                    <button class="btn btn-danger" id="reset">Reset</button>
-                </div>
-            </div>
-            <div class="text-center mb-4">
-                <span class="badge bg-info text-dark fs-5">Wynik:
-                    <div id="wynik">
-                        <!-- Do diva z id wyniki dodaj po prostu spana z numerem nic więcej i będzie działać  -->
-                        <!-- <span>100</span> ⬅⬅ coś takiego -->
-                    </div>
-                </span>
-                <span class="badge bg-primary text-dark fs-5">Liczba ruchów:
-                    <div id="ruchy">
-                        <!-- tu dodacie JS'em liczbe ruchów -->
-                        <!-- <span>15</span> ⬅⬅ coś takiego -->
+<body class="bg-dark">
 
-                    </div>
-                </span>
-            </div>
-
-            <div id="board" class="row row-cols-4 g-3">
-                <!-- 25 przycisków w układzie 5x5 -->
-                <div class="col"><button class="btn btn-outline-light w-100 memo-card">1</button></div>
-                <div class="col"><button class="btn btn-outline-light w-100 memo-card">2</button></div>
-                <div class="col"><button class="btn btn-outline-light w-100 memo-card">3</button></div>
-                <div class="col"><button class="btn btn-outline-light w-100 memo-card">4</button></div>
-                <div class="col"><button class="btn btn-outline-light w-100 memo-card">5</button></div>
-
-                <div class="col"><button class="btn btn-outline-light w-100 memo-card">6</button></div>
-                <div class="col"><button class="btn btn-outline-light w-100 memo-card">7</button></div>
-                <div class="col"><button class="btn btn-outline-light w-100 memo-card">8</button></div>
-                <div class="col"><button class="btn btn-outline-light w-100 memo-card">9</button></div>
-                <div class="col"><button class="btn btn-outline-light w-100 memo-card">10</button></div>
-
-                <div class="col"><button class="btn btn-outline-light w-100 memo-card">11</button></div>
-                <div class="col"><button class="btn btn-outline-light w-100 memo-card">12</button></div>
-                <div class="col"><button class="btn btn-outline-light w-100 memo-card">13</button></div>
-                <div class="col"><button class="btn btn-outline-light w-100 memo-card">14</button></div>
-                <div class="col"><button class="btn btn-outline-light w-100 memo-card">15</button></div>
-
-                <div class="col"><button class="btn btn-outline-light w-100 memo-card">16</button></div>
-                <div class="col"><button class="btn btn-outline-light w-100 memo-card">17</button></div>
-                <div class="col"><button class="btn btn-outline-light w-100 memo-card">18</button></div>
-                <div class="col"><button class="btn btn-outline-light w-100 memo-card">19</button></div>
-                <div class="col"><button class="btn btn-outline-light w-100 memo-card">20</button></div>
-
-                <div class="col"><button class="btn btn-outline-light w-100 memo-card">21</button></div>
-                <div class="col"><button class="btn btn-outline-light w-100 memo-card">22</button></div>
-                <div class="col"><button class="btn btn-outline-light w-100 memo-card">23</button></div>
-                <div class="col"><button class="btn btn-outline-light w-100 memo-card">24</button></div>
-                <!-- <div class="col"><button class="btn btn-outline-light w-100">25</button></div> -->
+    <div class="container py-5">
+        <div class="text-center mb-4">
+            <h1 class="mb-3 text-light">Gra Memo</h1>
+            <div id="sterowanie-gra" class="d-flex justify-content-center gap-3">
+                <button class="btn btn-primary" id="start">Start</button>
+                <button class="btn btn-danger" id="reset">Reset</button>
             </div>
         </div>
+        <div class="text-center mb-4">
+            <span class="badge bg-info text-dark fs-5">Wynik:
+                <div id="wynik">
+                    <!-- Do diva z id wyniki dodaj po prostu spana z numerem nic więcej i będzie działać  -->
+                    <!-- <span>100</span> ⬅⬅ coś takiego -->
+                </div>
+            </span>
+            <span class="badge bg-primary text-dark fs-5">Liczba ruchów:
+                <div id="ruchy">
+                    <!-- tu dodacie JS'em liczbe ruchów -->
+                    <!-- <span>15</span> ⬅⬅ coś takiego -->
 
+                </div>
+            </span>
+        </div>
 
-    </body>
+    </div>
+    <div id="board" class="board">
+    </div>
+
+    <script src="js/board.js"></script>
+    <script src="js/gameControl.js"></script>
+
+</body>
 
 </html>
