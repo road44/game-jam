@@ -11,7 +11,7 @@ class MemoGameController {
     this.timeElapsed = 0;
     this.timerRunning = false;
 
-    this.focusIndex = 0; // indeks karty zaznaczonej klawiaturą
+    this.focusIndex = 0;
 
     this.bindEvents();
     this.updateScore(0);
@@ -52,8 +52,7 @@ class MemoGameController {
       case "ArrowDown":
       case "s":
       case "S":
-        // jeśli chcesz, żeby ruszać się w "siatce", trzeba znać szerokość planszy — tutaj uproszczone:
-        this.focusIndex += 4; // np. 4 karty na wiersz
+        this.focusIndex += 4;
         if (this.focusIndex > maxIndex) this.focusIndex %= (maxIndex + 1);
         this.updateFocus();
         e.preventDefault();
@@ -80,7 +79,7 @@ class MemoGameController {
     this.cardElements.forEach((card, i) => {
       if (i === this.focusIndex) {
         card.classList.add("focused");
-        card.focus?.(); // spróbuj ustawić focus, jeśli karta jest focusowalna
+        card.focus?.();
       } else {
         card.classList.remove("focused");
       }
