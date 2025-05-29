@@ -10,74 +10,121 @@ let timer = null;
 let startTime = null;
 
 function updateDisplays() {
-  wynikDisplay.textContent = score;
-  ruchyDisplay.textContent = moves;
+	wynikDisplay.textContent = score;
+	ruchyDisplay.textContent = moves;
 }
 
 function startTimer() {
-  startTime = Date.now();
-  timer = setInterval(() => {
-    const elapsed = Math.floor((Date.now() - startTime) / 1000);
-    const minutes = Math.floor(elapsed / 60);
-    const seconds = elapsed % 60;
-    czasDisplay.textContent = `${minutes}:${seconds.toString().padStart(2, "0")}`;
-  }, 1000);
+	startTime = Date.now();
+	timer = setInterval(() => {
+		const elapsed = Math.floor((Date.now() - startTime) / 1000);
+		const minutes = Math.floor(elapsed / 60);
+		const seconds = elapsed % 60;
+		czasDisplay.textContent = `${minutes}:${seconds
+			.toString()
+			.padStart(2, "0")}`;
+	}, 1000);
 }
 
+const winMessage = document.getElementById("win-message");
+const restartBtn = document.getElementById("restart");
+
+function showWinMessage() {
+	const finalScoreText = `Twój wynik to: ${score}!!`;
+	const finalMovesText = `Dokonałeś tego w ${moves} ruchach!`;
+	document.getElementById("final-score").textContent = finalScoreText;
+	document.getElementById("final-moves").textContent = finalMovesText;
+
+	document.getElementById("win-message").style.display = "block";
+	document.getElementById("win-overlay").style.display = "block";
+	resetBtn.disabled = true;
+}
+
+function hideWinMessage() {
+	document.getElementById("win-message").style.display = "none";
+	document.getElementById("win-overlay").style.display = "none";
+}
+
+restartBtn.addEventListener("click", () => {
+	moves = 0;
+	score = 0;
+	updateDisplays();
+	czasDisplay.textContent = "0:00";
+
+	const board = document.getElementById("board");
+	board.innerHTML = "";
+
+	window.firstCard = null;
+	window.secondCard = null;
+	window.lockBoard = false;
+	window.gameStarted = true;
+
+	hideWinMessage();
+	window.initBoard();
+	startTimer();
+
+	startBtn.disabled = true;
+	resetBtn.disabled = false;
+});
+
 function stopTimer() {
-  clearInterval(timer);
-  timer = null;
+	clearInterval(timer);
+	timer = null;
 }
 
 const originalResetTurn = window.resetTurn;
 
 window.resetTurn = function () {
-  moves++;
-  const matchedCards = document.querySelectorAll(".card.matched");
-  score = matchedCards.length / 2;
-  updateDisplays();
+	moves++;
+	const matchedCards = document.querySelectorAll(".card.matched");
+	const allCards = document.querySelectorAll(".card");
+	score = matchedCards.length / 2;
+	updateDisplays();
 
-  if (score === 10) stopTimer();
+	if (matchedCards.length === allCards.length) {
+		stopTimer();
+		showWinMessage();
+	}
 
-  originalResetTurn();
+	originalResetTurn();
 };
 
 window.gameStarted = false;
 
 startBtn.addEventListener("click", () => {
-  moves = 0;
-  score = 0;
-  updateDisplays();
-  czasDisplay.textContent = "0:00";
+	moves = 0;
+	score = 0;
+	updateDisplays();
+	czasDisplay.textContent = "0:00";
 
-  window.gameStarted = true;
+	window.gameStarted = true;
 
-  window.initBoard();
-  startTimer();
+	window.initBoard();
+	startTimer();
 
-  startBtn.disabled = true;
-  resetBtn.disabled = false;
+	startBtn.disabled = true;
+	resetBtn.disabled = false;
 });
 
 resetBtn.addEventListener("click", () => {
-  moves = 0;
-  score = 0;
-  updateDisplays();
-  czasDisplay.textContent = "0:00";
+	moves = 0;
+	score = 0;
+	updateDisplays();
+	czasDisplay.textContent = "0:00";
 
-  const board = document.getElementById("board");
-  board.innerHTML = "";
+	const board = document.getElementById("board");
+	board.innerHTML = "";
 
-  window.firstCard = null;
-  window.secondCard = null;
-  window.lockBoard = false;
-  window.gameStarted = true;
+	window.firstCard = null;
+	window.secondCard = null;
+	window.lockBoard = false;
+	window.gameStarted = true;
 
-  window.initBoard();
-  startTimer();
+	window.initBoard();
+	startTimer();
 
-  startBtn.disabled = true;
-  resetBtn.disabled = false;
+	startBtn.disabled = true;
+	resetBtn.disabled = false;
 });
 
 resetBtn.disabled = true;
