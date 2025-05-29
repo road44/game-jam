@@ -43,7 +43,7 @@ startBtn.addEventListener("click", () => {
 
 		window.lockBoard = false;
 		window.gameStarted = true;
-	}, 1000);
+	}, 2000);
 
 	startBtn.disabled = true;
 	resetBtn.disabled = false;
