@@ -7,63 +7,63 @@ let moves = 0;
 let score = 0;
 
 function updateDisplays() {
-  wynikDisplay.textContent = score;
-  ruchyDisplay.textContent = moves;
+	wynikDisplay.textContent = score;
+	ruchyDisplay.textContent = moves;
 }
 
 const originalResetTurn = window.resetTurn;
 
 window.resetTurn = function () {
-  moves++;
-  const matchedCards = document.querySelectorAll(".card.matched");
-  score = matchedCards.length / 2;
+	moves++;
+	const matchedCards = document.querySelectorAll(".card.matched");
+	score = matchedCards.length / 2;
 
-  updateDisplays();
-  originalResetTurn();
+	updateDisplays();
+	originalResetTurn();
 };
 
 window.gameStarted = false;
 
 startBtn.addEventListener("click", () => {
-  moves = 0;
-  score = 0;
-  updateDisplays();
+	moves = 0;
+	score = 0;
+	updateDisplays();
 
-  window.gameStarted = false; // blokujemy kliknięcia podczas pokazu kart
+	window.gameStarted = false; // blokujemy kliknięcia podczas pokazu kart
 
-  window.initBoard();
+	window.initBoard();
 
-  const allCards = document.querySelectorAll(".card");
-  allCards.forEach(card => card.classList.add("revealed"));
+	const allCards = document.querySelectorAll(".card");
+	allCards.forEach((card) => card.classList.add("revealed"));
 
-  window.lockBoard = true; // blokada ruchów na czas pokazu
+	window.lockBoard = true; // blokada ruchów na czas pokazu
 
-  setTimeout(() => {
-    allCards.forEach(card => card.classList.remove("revealed"));
+	setTimeout(() => {
+		allCards.forEach((card) => card.classList.remove("revealed"));
 
-    window.lockBoard = false;
-    window.gameStarted = true;
-  }, 2000);
+		window.lockBoard = false;
+		window.gameStarted = true;
+	}, 1000);
 
-  startBtn.disabled = true;
-  resetBtn.disabled = false;
+	startBtn.disabled = true;
+	resetBtn.disabled = false;
 });
 
 resetBtn.addEventListener("click", () => {
-  moves = 0;
-  score = 0;
-  updateDisplays();
+	moves = 0;
+	score = 0;
+	updateDisplays();
 
-  const board = document.getElementById("board");
-  board.innerHTML = "";
+	const board = document.getElementById("board");
+	board.innerHTML = "";
 
-  window.firstCard = null;
-  window.secondCard = null;
-  window.lockBoard = false;
-  window.gameStarted = false;
+	window.firstCard = null;
+	window.secondCard = null;
+	window.lockBoard = false;
+	window.gameStarted = false;
 
-  startBtn.disabled = false;
-  resetBtn.disabled = true;
+	startBtn.disabled = false;
+	resetBtn.disabled = true;
 });
 
 resetBtn.disabled = true;
