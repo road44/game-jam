@@ -1,6 +1,6 @@
 # Gra MEMO
 
-Memo to gra pamięciowa, w której celem jest odnalezienie wszystkich par identycznych kart w jak najmniejszej liczbie ruchów. W wersji jednoosobowej gracz samodzielnie odkrywa po dwie karty i stara się zapamiętać ich położenie, by jak najszybciej znaleźć wszystkie pary.
+**Memo** to gra pamięciowa, w której celem jest odnalezienie wszystkich par identycznych kart w jak najmniejszej liczbie ruchów. W wersji jednoosobowej gracz samodzielnie odkrywa po dwie karty i stara się zapamiętać ich położenie, by jak najszybciej znaleźć wszystkie pary.
 
 # Zasady gry:
 
