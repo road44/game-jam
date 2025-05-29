@@ -1,64 +1,76 @@
 const emojis = ["🍎", "🚗", "🐶", "🎵", "🍕", "⚽", "📚", "🌞", "🎁", "🎲"];
 const board = document.getElementById("board");
 
-let cards = [...emojis, ...emojis].sort(() => Math.random() - 0.5);
+let cards = [];
 let firstCard = null;
 let secondCard = null;
 let lockBoard = false;
 
-cards.forEach((symbol, index) => {
-	const card = document.createElement("div");
-	card.classList.add("card");
-	card.dataset.symbol = symbol;
-	card.dataset.index = index;
+function initBoard() {
+  board.innerHTML = "";
+  cards = [...emojis, ...emojis].sort(() => Math.random() - 0.5);
+  firstCard = null;
+  secondCard = null;
+  lockBoard = false;
 
-	const front = document.createElement("div");
-	front.classList.add("front");
-	front.textContent = "";
+  cards.forEach((symbol, index) => {
+    const card = document.createElement("div");
+    card.classList.add("card");
+    card.dataset.symbol = symbol;
+    card.dataset.index = index;
 
-	const back = document.createElement("div");
-	back.classList.add("back");
-	back.textContent = symbol;
+    const front = document.createElement("div");
+    front.classList.add("front");
+    front.textContent = "";
 
-	card.appendChild(front);
-	card.appendChild(back);
+    const back = document.createElement("div");
+    back.classList.add("back");
+    back.textContent = symbol;
 
-	card.addEventListener("click", () => {
-		if (
-			lockBoard ||
-			card.classList.contains("revealed") ||
-			card.classList.contains("matched")
-		)
-			return;
+    card.appendChild(front);
+    card.appendChild(back);
 
-		card.classList.add("revealed");
+    card.addEventListener("click", () => {
+      if (!window.gameStarted) return;
+      if (
+        lockBoard ||
+        card.classList.contains("revealed") ||
+        card.classList.contains("matched")
+      )
+        return;
 
-		if (!firstCard) {
-			firstCard = card;
-		} else {
-			secondCard = card;
-			lockBoard = true;
+      card.classList.add("revealed");
 
-			if (firstCard.dataset.symbol === secondCard.dataset.symbol) {
-				setTimeout(() => {
-					firstCard.classList.add("matched");
-					secondCard.classList.add("matched");
-					resetTurn();
-				}, 500);
-			} else {
-				setTimeout(() => {
-					firstCard.classList.remove("revealed");
-					secondCard.classList.remove("revealed");
-					resetTurn();
-				}, 1000);
-			}
-		}
-	});
+      if (!firstCard) {
+        firstCard = card;
+      } else {
+        secondCard = card;
+        lockBoard = true;
 
-	board.appendChild(card);
-});
+        if (firstCard.dataset.symbol === secondCard.dataset.symbol) {
+          setTimeout(() => {
+            firstCard.classList.add("matched");
+            secondCard.classList.add("matched");
+            resetTurn();
+          }, 500);
+        } else {
+          setTimeout(() => {
+            firstCard.classList.remove("revealed");
+            secondCard.classList.remove("revealed");
+            resetTurn();
+          }, 1000);
+        }
+      }
+    });
+
+    board.appendChild(card);
+  });
+}
 
 function resetTurn() {
-	[firstCard, secondCard] = [null, null];
-	lockBoard = false;
+  [firstCard, secondCard] = [null, null];
+  lockBoard = false;
 }
+
+window.initBoard = initBoard;
+window.resetTurn = resetTurn;
