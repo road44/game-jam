@@ -71,5 +71,6 @@ function resetTurn() {
   [firstCard, secondCard] = [null, null];
   lockBoard = false;
 }
+
 window.initBoard = initBoard;
 window.resetTurn = resetTurn;

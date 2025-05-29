@@ -29,9 +29,21 @@ startBtn.addEventListener("click", () => {
   score = 0;
   updateDisplays();
 
-  window.gameStarted = true;
+  window.gameStarted = false; // blokujemy kliknięcia podczas pokazu kart
 
   window.initBoard();
+
+  const allCards = document.querySelectorAll(".card");
+  allCards.forEach(card => card.classList.add("revealed"));
+
+  window.lockBoard = true; // blokada ruchów na czas pokazu
+
+  setTimeout(() => {
+    allCards.forEach(card => card.classList.remove("revealed"));
+
+    window.lockBoard = false;
+    window.gameStarted = true;
+  }, 2000);
 
   startBtn.disabled = true;
   resetBtn.disabled = false;
@@ -42,19 +54,16 @@ resetBtn.addEventListener("click", () => {
   score = 0;
   updateDisplays();
 
-  window.gameStarted = true;
-
   const board = document.getElementById("board");
   board.innerHTML = "";
 
   window.firstCard = null;
   window.secondCard = null;
   window.lockBoard = false;
+  window.gameStarted = false;
 
-  window.initBoard();
-
-  startBtn.disabled = true;
-  resetBtn.disabled = false;
+  startBtn.disabled = false;
+  resetBtn.disabled = true;
 });
 
 resetBtn.disabled = true;
